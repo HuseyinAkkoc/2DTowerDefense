@@ -7,7 +7,9 @@ public class Spawner : MonoBehaviour
     private float _spawnTimer;
     private float _spawnCounter;
     private int _enemiesRemoved;
-   
+    private float _timeBetweenWaves = 2f;
+    private float _waveCooldown;
+    private bool _isBetweenWaves;
 
     [SerializeField] private ObjectPooler zombiePool;
     [SerializeField] private ObjectPooler batPool;
@@ -21,6 +23,8 @@ public class Spawner : MonoBehaviour
 
     private Dictionary<EnemyType, ObjectPooler> _poolDictionary;
 
+    
+
     private void Awake()
     {
         _poolDictionary = new Dictionary<EnemyType, ObjectPooler>()
@@ -32,22 +36,52 @@ public class Spawner : MonoBehaviour
         };
     }
 
+
+    private void OnEnable()
+    {
+        Enemy.OnEnemyReachedEnd += HandleEnemyReachedEnd;
+    }
+
+
+    private void OnDisable()
+    {
+        Enemy.OnEnemyReachedEnd -= HandleEnemyReachedEnd; 
+    }
     private void Update()
     {
-        _spawnTimer -= Time.deltaTime;
 
-        if(_spawnTimer <= 0 && _spawnCounter < CurrentWave.enemiesPerWave)
-        {
-            _spawnTimer = CurrentWave.spawnInterval;
-            SpawnEnemy();
-            _spawnCounter++;
 
-        }
-        else if( _spawnCounter >= CurrentWave.enemiesPerWave && _enemiesRemoved >= CurrentWave.enemiesPerWave)
+        if(_isBetweenWaves)
         {
-             _currentWaveindex = ( _currentWaveindex +1)% waves.Length;
-            _spawnCounter = 0;
+            _waveCooldown -= Time.deltaTime;
+            if(_waveCooldown <= 0f )
+            {
+                _currentWaveindex = (_currentWaveindex + 1) % waves.Length;
+                _spawnCounter = 0;
+                _enemiesRemoved = 0;
+                _spawnTimer = 0f;
+                _isBetweenWaves = false;
+            }
         }
+        else
+        {
+            _spawnTimer -= Time.deltaTime;
+
+            if (_spawnTimer <= 0 && _spawnCounter < CurrentWave.enemiesPerWave)
+            {
+                _spawnTimer = CurrentWave.spawnInterval;
+                SpawnEnemy();
+                _spawnCounter++;
+
+            }
+            else if (_spawnCounter >= CurrentWave.enemiesPerWave && _enemiesRemoved >= CurrentWave.enemiesPerWave)
+            {
+               
+                _isBetweenWaves = true;
+                _waveCooldown= _timeBetweenWaves;
+            }
+        }
+        
             
     }
 
@@ -64,6 +98,13 @@ public class Spawner : MonoBehaviour
       
 
 
+    }
+
+
+
+    private void HandleEnemyReachedEnd(EnemyData data)
+    {
+        _enemiesRemoved++;
     }
 
 }

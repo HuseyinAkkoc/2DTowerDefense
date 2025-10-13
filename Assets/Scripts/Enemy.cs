@@ -1,10 +1,11 @@
 using UnityEngine;
+using System;
 
 public class Enemy : MonoBehaviour
 {
 
     [SerializeField] private EnemyData data;
-   
+    public static event Action<EnemyData> OnEnemyReachedEnd;    // whenever it triggers  it will pass the enemy data that reached the final point. 
 
      private Path _currentPath;
 
@@ -45,8 +46,9 @@ public class Enemy : MonoBehaviour
 
             }
 
-            else
+            else// our current enemy reach the end.
             {
+                OnEnemyReachedEnd?.Invoke(data);    // trigger if not null and reach the last point.
                 gameObject.SetActive(false);
             }
 
