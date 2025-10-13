@@ -1,24 +1,33 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-   
+
+    public static event Action<int> OnWaveChanged;
+
     private float _spawnTimer;
     private float _spawnCounter;
     private int _enemiesRemoved;
+
+
     private float _timeBetweenWaves = 2f;
     private float _waveCooldown;
     private bool _isBetweenWaves;
+
+
 
     [SerializeField] private ObjectPooler zombiePool;
     [SerializeField] private ObjectPooler batPool;
     [SerializeField] private ObjectPooler golemPool;
 
 
+    private WaveData CurrentWave => waves[_currentWaveindex];
     [SerializeField] private WaveData[] waves;
     private int _currentWaveindex = 0;
-    private WaveData CurrentWave => waves[_currentWaveindex];
+    private int _waveCounter = 0;
+  
 
 
     private Dictionary<EnemyType, ObjectPooler> _poolDictionary;
@@ -36,6 +45,10 @@ public class Spawner : MonoBehaviour
         };
     }
 
+    private void Start()
+    {
+        OnWaveChanged?.Invoke(_waveCounter);
+    }
 
     private void OnEnable()
     {
@@ -57,6 +70,8 @@ public class Spawner : MonoBehaviour
             if(_waveCooldown <= 0f )
             {
                 _currentWaveindex = (_currentWaveindex + 1) % waves.Length;
+                _waveCounter++;
+                OnWaveChanged?.Invoke( _waveCounter );
                 _spawnCounter = 0;
                 _enemiesRemoved = 0;
                 _spawnTimer = 0f;
