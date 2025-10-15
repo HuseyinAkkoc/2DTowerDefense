@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca06d45aacbe6204a978732d7f889ea0, type: 3}
   m_Name: Enemy_Zombie
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  lives: 3
+  lives: 2
   damage: 1
-  speed: 5
+  speed: 1
