@@ -12,8 +12,8 @@ TagManager:
   - 
   - Water
   - UI
-  - Unwalkable
-  - Walkable
+  - 
+  - 
   - 
   - 
   - 
@@ -42,8 +42,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Player/Enemy
-    uniqueID: 3376015927
+  - name: Background
+    uniqueID: 2998230945
+    locked: 0
+  - name: Enemies
+    uniqueID: 3599645915
     locked: 0
   m_RenderingLayers:
   - Default
