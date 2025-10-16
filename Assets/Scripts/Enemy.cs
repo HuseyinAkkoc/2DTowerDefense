@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     private int _currentWayPoint;
     private float _lives;
     private float _maxLives;
-
+    private bool _hasBeenCounted = false;
 
     [SerializeField] private Transform healthBar;
     private Vector3 _healthBarOriginalScale;
@@ -54,6 +54,8 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         if (data == null || _currentPath == null) return;
+        if (_hasBeenCounted) return;
+        
 
         transform.position = Vector3.MoveTowards(transform.position, _targetPosition, data.speed * Time.deltaTime);
         float relativeDistance = (_targetPosition - transform.position).magnitude;
@@ -69,6 +71,7 @@ public class Enemy : MonoBehaviour
 
             else// our current enemy reach the end.
             {
+                _hasBeenCounted = true;
                 OnEnemyReachedEnd?.Invoke(data);    // trigger if not null and reach the last point.
                 gameObject.SetActive(false);
             }
@@ -84,6 +87,7 @@ public class Enemy : MonoBehaviour
         UpdateHealthBar();
         if(_lives <= 0)
         {
+            _hasBeenCounted=true;   
             OnEnemyDestroyed?.Invoke(this);
             gameObject.SetActive(false);
         }
@@ -101,6 +105,7 @@ public class Enemy : MonoBehaviour
 
     public void Initialize(float healthMultiplier)
     {
+        _hasBeenCounted = false;
         _maxLives= data.lives * healthMultiplier;
         _lives = _maxLives;
         UpdateHealthBar();

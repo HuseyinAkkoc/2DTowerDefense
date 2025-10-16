@@ -12,7 +12,7 @@ public class Spawner : MonoBehaviour
     private int _enemiesRemoved;
 
 
-    private float _timeBetweenWaves = 2f;
+    private float _timeBetweenWaves = 1f;
     private float _waveCooldown;
     private bool _isBetweenWaves;
 

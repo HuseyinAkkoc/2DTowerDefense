@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2086725136475627722}
   - component: {fileID: 3936558511013252310}
   m_Layer: 0
-  m_Name: FastTower
+  m_Name: TeslaTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: 2132186031
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1e5f8a53f2369cb4e974f756806eada5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef2bbaff930eb9949987efd6f9e87504, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3271745848364d84d9a9e85df06fd739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
-  data: {fileID: 11400000, guid: cc80503ed104b7c4b8d75f75222cdaed, type: 2}
+  data: {fileID: 11400000, guid: 1f5c9283e98988047a9bd1c6ff5a4e7b, type: 2}
 --- !u!58 &2086725136475627722
 CircleCollider2D:
   m_ObjectHideFlags: 0

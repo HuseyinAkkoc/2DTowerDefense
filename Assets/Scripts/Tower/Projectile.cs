@@ -1,3 +1,4 @@
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -5,7 +6,12 @@ public class Projectile : MonoBehaviour
     private TowerData _data;
     private Vector2 _shootDirection;
     private float _projectileDuration;
-    
+
+
+    private void Start()
+    {
+        transform.localScale= Vector3.one * _data.projectileSize;
+    }
     void Update()
     {
         if(_projectileDuration <=0)
