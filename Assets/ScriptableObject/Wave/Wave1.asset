@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
   enemyType: 0
   spawnInterval: 0.8
-  enemiesPerWave: 20
+  enemiesPerWave: 10

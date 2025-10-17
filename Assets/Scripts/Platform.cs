@@ -10,9 +10,14 @@ public class Platform : MonoBehaviour
 
     [SerializeField] private LayerMask PlatformLayerMask;
     public static event Action<Platform> OnPlatformClicked;
+    public static bool towerPanelOpen { get; set; } = false;
     private void Update()
     {
-        if(Mouse.current.leftButton.wasPressedThisFrame)
+        if (towerPanelOpen)
+        {
+            return;
+        }
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             Vector2 worldPoint= Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());  // fix here for touch screen input
 
