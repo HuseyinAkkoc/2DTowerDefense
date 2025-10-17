@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c03f39be8bcfcf04aa3e874a69f0606d, type: 3}
   m_Name: StrongTower
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
-  range: 3
+  range: 6
   shootInterval: 1
   projectileSpeed: 4
   projectileDuration: 3
   damage: 10
-  projectileSize: 2
+  projectileSize: 1

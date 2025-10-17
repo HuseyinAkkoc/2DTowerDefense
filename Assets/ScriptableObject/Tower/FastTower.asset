@@ -17,4 +17,4 @@ MonoBehaviour:
   projectileSpeed: 5
   projectileDuration: 2
   damage: 1
-  projectileSize: 1
+  projectileSize: 0.6
