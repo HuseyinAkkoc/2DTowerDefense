@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class UIController : MonoBehaviour
 {
@@ -7,9 +9,15 @@ public class UIController : MonoBehaviour
     [SerializeField] private TMP_Text waveText;
     [SerializeField] private TMP_Text livesText;
     [SerializeField] private TMP_Text resourcesText;
+
+
     [SerializeField] private GameObject towerPanel;
+    [SerializeField] private GameObject towerCard;
+    [SerializeField] private Transform cardContainer;
 
 
+    [SerializeField] private TowerData[] towers;
+    private List<GameObject> activeCards =new List<GameObject>();
     private void OnEnable()
     {
         Spawner.OnWaveChanged += UpdateWaveText;
@@ -51,6 +59,7 @@ public class UIController : MonoBehaviour
     {
         towerPanel.SetActive(true);
         GameManager.Instance.SetTimeScale(0f);
+        PopulateTowerCards();
     }
 
     public void HideTowerPanel()
@@ -62,5 +71,25 @@ public class UIController : MonoBehaviour
     private void HandlePlatformClicked(Platform platform)
     {
         ShowTowerPanel();
+    }
+
+
+    private void  PopulateTowerCards()
+    {
+        foreach (var card in activeCards)
+        {
+            Destroy(card);
+
+        }
+            activeCards.Clear();
+
+            foreach (var data in towers)
+            {
+                GameObject cardGameObject = Instantiate(towerCard, cardContainer);
+               TowerCard card = cardGameObject.GetComponent<TowerCard>(); 
+            card.Initialize(data);
+            activeCards.Add(cardGameObject);
+            }
+        
     }
 }

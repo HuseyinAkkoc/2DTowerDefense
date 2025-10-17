@@ -9,4 +9,9 @@ public class TowerData : ScriptableObject
     public float projectileDuration;
     public float damage;
     public float projectileSize;  // NOTE: don't forget to set tesla tower projectile smaller . 
+    public int cost;
+    public Sprite sprite;
+
+
+
 }
