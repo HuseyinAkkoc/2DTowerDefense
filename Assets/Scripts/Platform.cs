@@ -13,7 +13,7 @@ public class Platform : MonoBehaviour
     public static bool towerPanelOpen { get; set; } = false;
     private void Update()
     {
-        if (towerPanelOpen)
+        if (towerPanelOpen || Time.timeScale ==0f)
         {
             return;
         }

@@ -4,6 +4,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -33,6 +35,11 @@ public class UIController : MonoBehaviour
     [SerializeField] private Color normalTextColor = Color.black;
     [SerializeField] private Color selectedTextColor = Color.white;
 
+
+    [SerializeField] private GameObject pausePanel;
+    private bool _isGamePaused = false;
+   
+
     private void OnEnable()
     {
         Spawner.OnWaveChanged += UpdateWaveText;
@@ -58,9 +65,19 @@ public class UIController : MonoBehaviour
         speed1Button.onClick.AddListener(() => SetGameSpeed(0.5f));
         speed2Button.onClick.AddListener(() => SetGameSpeed(1f));
         speed3Button.onClick.AddListener(() => SetGameSpeed(2f));
+
+        HighlightSelectedSpeedButton(GameManager.Instance.GameSpeed);
     }
 
 
+
+    private void Update()
+    {
+        if(Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            TogglePause();
+        }
+    }
 
     private void UpdateWaveText(int currentWave)
     {
@@ -167,5 +184,51 @@ public class UIController : MonoBehaviour
         UpdateButtonVisual(speed1Button, selectedSpeed == 0.5f);
         UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
         UpdateButtonVisual(speed3Button, selectedSpeed == 2f);
+    }
+
+    public void TogglePause()
+    {
+
+        if(towerPanel.activeSelf)
+        {
+            return;
+        }
+        if(_isGamePaused)
+        {
+            pausePanel.SetActive(false);
+            _isGamePaused = false;
+            GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
+        }
+        else
+        {
+            pausePanel.SetActive(true);
+            _isGamePaused = true;
+            GameManager.Instance.SetTimeScale(0f);
+        }
+    }
+
+    public void RestartLevel()
+    {
+        GameManager.Instance.SetTimeScale(1f);
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.buildIndex);
+    }
+
+
+    public void QuitGame()
+    {
+
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
+    }
+
+
+    public void MainMenuButton()
+    {
+        GameManager.Instance.SetTimeScale(1f);
+        SceneManager.LoadScene("MainMenu");
     }
 }
