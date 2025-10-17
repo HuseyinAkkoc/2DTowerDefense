@@ -35,4 +35,19 @@ public class Platform : MonoBehaviour
 
 
     }
+
+
+    public void PlaceTower(TowerData data)
+    {
+
+        if (data == null || data.prefab == null)
+        {
+            Debug.LogError("TowerData or Tower prefab is missing!");
+            return;
+        }
+
+
+        Instantiate(data.prefab, transform.position, Quaternion.identity,transform);
+    }
+
 }

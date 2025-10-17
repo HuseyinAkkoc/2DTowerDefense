@@ -20,3 +20,4 @@ MonoBehaviour:
   projectileSize: 0.3
   cost: 75
   sprite: {fileID: 21300000, guid: ef2bbaff930eb9949987efd6f9e87504, type: 3}
+  prefab: {fileID: 3365465238169358597, guid: 4dcd50222d0b60c45a8821fbaf6866ad, type: 3}
