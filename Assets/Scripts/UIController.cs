@@ -38,7 +38,7 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private GameObject pausePanel;
     private bool _isGamePaused = false;
-   
+    [SerializeField] private GameObject gameOverPanel;
 
     private void OnEnable()
     {
@@ -64,7 +64,7 @@ public class UIController : MonoBehaviour
     {
         speed1Button.onClick.AddListener(() => SetGameSpeed(0.5f));
         speed2Button.onClick.AddListener(() => SetGameSpeed(1f));
-        speed3Button.onClick.AddListener(() => SetGameSpeed(2f));
+        speed3Button.onClick.AddListener(() => SetGameSpeed(4f));
 
         HighlightSelectedSpeedButton(GameManager.Instance.GameSpeed);
     }
@@ -72,11 +72,25 @@ public class UIController : MonoBehaviour
 
 
     private void Update()
-    {
-        if(Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
+    {                  ///////// only for esc to pasue/////////////////////
+#if UNITY_EDITOR || UNITY_STANDALONE
+        // PC or Editor – use ESC key
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
             TogglePause();
-        }
+#elif UNITY_ANDROID || UNITY_IOS
+    // Mobile – use back button (Android) or a custom pause button
+    if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+    {
+        // Optional: detect top-corner tap as a pause gesture
+        Vector2 touchPos = Touchscreen.current.primaryTouch.position.ReadValue();
+        if (touchPos.y > Screen.height * 0.9f && touchPos.x > Screen.width * 0.9f)
+            TogglePause();
+    }
+
+    // Android hardware back button
+    if (Keyboard.current != null && Keyboard.current.backspaceKey.wasPressedThisFrame)
+        TogglePause();
+#endif
     }
 
     private void UpdateWaveText(int currentWave)
@@ -88,6 +102,11 @@ public class UIController : MonoBehaviour
     private void UpdateLiveText(int currentLives)
     {
         livesText.text = $"Lives: {currentLives}";
+
+        if(currentLives <= 0)
+        {
+            ShowGameOver();
+        }
     }
 
     private void UpdateResourcesText(int currentResources)
@@ -183,7 +202,7 @@ public class UIController : MonoBehaviour
     {
         UpdateButtonVisual(speed1Button, selectedSpeed == 0.5f);
         UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
-        UpdateButtonVisual(speed3Button, selectedSpeed == 2f);
+        UpdateButtonVisual(speed3Button, selectedSpeed == 4f);
     }
 
     public void TogglePause()
@@ -217,13 +236,22 @@ public class UIController : MonoBehaviour
 
     public void QuitGame()
     {
-
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
+        // Stop play mode inside Unity Editor
         UnityEditor.EditorApplication.isPlaying = false;
-    #else
-        Application.Quit();
-    #endif
+#elif UNITY_STANDALONE
+    
+    Application.Quit();
+#elif UNITY_ANDROID || UNITY_IOS
+   
+    Application.Quit();
+    Debug.Log("Quit command sent (Android/iOS)");
+#else
+    
+    Application.Quit();
+#endif
     }
+
 
 
     public void MainMenuButton()
@@ -231,4 +259,11 @@ public class UIController : MonoBehaviour
         GameManager.Instance.SetTimeScale(1f);
         SceneManager.LoadScene("MainMenu");
     }
+
+    private void ShowGameOver()
+    {
+        GameManager.Instance.SetTimeScale(0f);
+        gameOverPanel.SetActive(true);
+    }
+
 }
