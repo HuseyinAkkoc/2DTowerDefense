@@ -3,6 +3,7 @@ using TMPro;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -22,6 +23,15 @@ public class UIController : MonoBehaviour
     private List<GameObject> activeCards =new List<GameObject>();
     private Platform _currentPlatform;
 
+
+    [SerializeField] private Button speed1Button;
+    [SerializeField] private Button speed2Button;
+    [SerializeField] private Button speed3Button;
+
+    [SerializeField] private Color normalButtonColor =Color.white;
+    [SerializeField]private Color  selectedButtonColor= Color.red;
+    [SerializeField] private Color normalTextColor = Color.black;
+    [SerializeField] private Color selectedTextColor = Color.white;
 
     private void OnEnable()
     {
@@ -43,8 +53,15 @@ public class UIController : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        speed1Button.onClick.AddListener(() => SetGameSpeed(0.5f));
+        speed2Button.onClick.AddListener(() => SetGameSpeed(1f));
+        speed3Button.onClick.AddListener(() => SetGameSpeed(2f));
+    }
 
-   
+
+
     private void UpdateWaveText(int currentWave)
     {
         waveText.text = $"Wave: {currentWave + 1}";
@@ -75,7 +92,7 @@ public class UIController : MonoBehaviour
     {
         towerPanel.SetActive(false);
         Platform.towerPanelOpen = false;
-        GameManager.Instance.SetTimeScale(1f);
+        GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
     }
 
     private void HandlePlatformClicked(Platform platform)
@@ -128,5 +145,27 @@ public class UIController : MonoBehaviour
         yield return new WaitForSecondsRealtime(3f);
         noResourcesText.SetActive(false);
 
+    }
+
+    private void SetGameSpeed(float timeScale)
+    {
+        HighlightSelectedSpeedButton(timeScale);
+        GameManager.Instance.SetGameSpeed(timeScale);
+    }
+
+
+    private void UpdateButtonVisual(Button button, bool isSelected)
+    {
+        button.image.color = isSelected ? selectedButtonColor : normalButtonColor;
+        TMP_Text text = button.GetComponentInChildren<TMP_Text>();
+        text.color= isSelected ? selectedTextColor : normalTextColor;
+    }
+
+
+    private void HighlightSelectedSpeedButton( float selectedSpeed)
+    {
+        UpdateButtonVisual(speed1Button, selectedSpeed == 0.5f);
+        UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
+        UpdateButtonVisual(speed3Button, selectedSpeed == 2f);
     }
 }
