@@ -20,7 +20,8 @@ public class Platform : MonoBehaviour
     // PC / Editor input
     if (Mouse.current.leftButton.wasPressedThisFrame)
     {
-        Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            UIButtonSound.Instance.PlayClick();
+            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         HandlePlatformClick(worldPoint);
     }
 #elif UNITY_ANDROID || UNITY_IOS

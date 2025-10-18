@@ -13,7 +13,7 @@ public class Path : MonoBehaviour
         return wayPoints[index].transform.position;
     }
 
-    private void OnDrawGizmos()
+   /* private void OnDrawGizmos()
     {
         if (wayPoints == null || wayPoints.Length == 0)
             return;
@@ -38,5 +38,5 @@ public class Path : MonoBehaviour
                 Gizmos.DrawLine(wayPoints[i].transform.position, wayPoints[i + 1].transform.position);
             }
         }
-    }
+    }*/
 }

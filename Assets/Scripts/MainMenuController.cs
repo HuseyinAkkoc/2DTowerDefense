@@ -2,7 +2,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
-{
+{ 
+
+    [SerializeField] private GameObject instructionPanel;
+
     public void StartGame()
     {
         SceneManager.LoadScene("Game");
@@ -28,4 +31,17 @@ public class MainMenuController : MonoBehaviour
         Application.Quit();
 #endif
     }
+
+
+    public void ShowInstructionPanel()
+    {
+        instructionPanel.SetActive(true);
+    }
+
+
+    public void HideInstructionPanel()
+    {
+        instructionPanel.SetActive(false);
+    }
+
 }

@@ -126,6 +126,7 @@ public class UIController : MonoBehaviour
 
     public void HideTowerPanel()
     {
+        UIButtonSound.Instance.PlayClick();
         towerPanel.SetActive(false);
         Platform.towerPanelOpen = false;
         GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
@@ -214,12 +215,14 @@ public class UIController : MonoBehaviour
         }
         if(_isGamePaused)
         {
+            
             pausePanel.SetActive(false);
             _isGamePaused = false;
             GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
         }
         else
         {
+            UIButtonSound.Instance.PlayClick();
             pausePanel.SetActive(true);
             _isGamePaused = true;
             GameManager.Instance.SetTimeScale(0f);
@@ -228,6 +231,7 @@ public class UIController : MonoBehaviour
 
     public void RestartLevel()
     {
+        UIButtonSound.Instance.PlayClick();
         GameManager.Instance.SetTimeScale(1f);
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.buildIndex);
@@ -236,6 +240,7 @@ public class UIController : MonoBehaviour
 
     public void QuitGame()
     {
+        UIButtonSound.Instance.PlayClick();
 #if UNITY_EDITOR
         // Stop play mode inside Unity Editor
         UnityEditor.EditorApplication.isPlaying = false;
@@ -256,6 +261,7 @@ public class UIController : MonoBehaviour
 
     public void MainMenuButton()
     {
+        UIButtonSound.Instance.PlayClick();
         GameManager.Instance.SetTimeScale(1f);
         SceneManager.LoadScene("MainMenu");
     }
