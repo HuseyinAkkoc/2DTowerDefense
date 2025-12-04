@@ -7,4 +7,8 @@ public class EnemyData : ScriptableObject
     public int damage;
     public float speed;
     public float resourceReward;
+    public bool isMoving;
+
+    public Animator animator;
+    
 }

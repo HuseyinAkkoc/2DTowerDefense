@@ -106,7 +106,7 @@ Animator:
   m_GameObject: {fileID: 5284643900520674695}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5adf00be4d34fca4d8ae5ee97423b497, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2e7acdf0ec7d6044095c17e3036447b2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -132,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   data: {fileID: 11400000, guid: 2f0ae988415d67e44aaf5a8127103d97, type: 2}
   healthBar: {fileID: 3846283037287643005}
+  animator: {fileID: 5284643900520674693}
 --- !u!50 &7512818329890178397
 Rigidbody2D:
   serializedVersion: 5

@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   range: 5
   shootInterval: 0.01
-  projectileSpeed: 12
-  projectileDuration: 0.5
+  projectileSpeed: 20
+  projectileDuration: 0.12
   damage: 0.005
-  projectileSize: 0.3
+  projectileSize: 1
   cost: 75
   sprite: {fileID: 21300000, guid: ef2bbaff930eb9949987efd6f9e87504, type: 3}
+  hitEffectPrefab: {fileID: 1141330259687333427, guid: 6718dc24203da53468af9ada8fef7d6d, type: 3}
   prefab: {fileID: 3365465238169358597, guid: 4dcd50222d0b60c45a8821fbaf6866ad, type: 3}

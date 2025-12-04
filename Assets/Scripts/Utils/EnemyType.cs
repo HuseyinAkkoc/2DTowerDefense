@@ -4,6 +4,10 @@ public enum  EnemyType
 {
    Zombie,
    Bat,
-   Golem
+   Golem,
+   Knight,
+   Thief,
+   Soldier
+
 
 }

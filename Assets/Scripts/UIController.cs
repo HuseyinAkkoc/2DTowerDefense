@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TMP_Text waveText;
     [SerializeField] private TMP_Text livesText;
     [SerializeField] private TMP_Text resourcesText;
+    [SerializeField] private GameObject levelCompleteText;
     [SerializeField] private GameObject noResourcesText;
 
 
@@ -30,15 +31,20 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button speed2Button;
     [SerializeField] private Button speed3Button;
 
-    [SerializeField] private Color normalButtonColor =Color.white;
-    [SerializeField]private Color  selectedButtonColor= Color.red;
-    [SerializeField] private Color normalTextColor = Color.black;
-    [SerializeField] private Color selectedTextColor = Color.white;
+    [SerializeField] private Color normalButtonColor ;
+    [SerializeField]private Color  selectedButtonColor;
+    [SerializeField] private Color normalTextColor ;
+    [SerializeField] private Color selectedTextColor ;
 
 
     [SerializeField] private GameObject pausePanel;
     private bool _isGamePaused = false;
     [SerializeField] private GameObject gameOverPanel;
+
+    
+
+   
+
 
     private void OnEnable()
     {
@@ -47,6 +53,8 @@ public class UIController : MonoBehaviour
         GameManager.OnResourcesChanged += UpdateResourcesText;
         Platform.OnPlatformClicked += HandlePlatformClicked;
         TowerCard.OnTowerSelected += HandleTowerSelected;
+        Spawner.OnLevelCompleted += ShowLevelText;
+
     }
 
     private void OnDisable()
@@ -56,6 +64,8 @@ public class UIController : MonoBehaviour
         GameManager.OnResourcesChanged -= UpdateResourcesText;
         Platform.OnPlatformClicked -= HandlePlatformClicked;
         TowerCard.OnTowerSelected -= HandleTowerSelected;
+        Spawner.OnLevelCompleted -= ShowLevelText;
+
 
 
     }
@@ -67,6 +77,9 @@ public class UIController : MonoBehaviour
         speed3Button.onClick.AddListener(() => SetGameSpeed(4f));
 
         HighlightSelectedSpeedButton(GameManager.Instance.GameSpeed);
+        levelCompleteText.SetActive(false);
+
+        
     }
 
 
@@ -162,18 +175,30 @@ public class UIController : MonoBehaviour
 
     public void HandleTowerSelected(TowerData towerData)
     {
-        if(GameManager.Instance.Resources >= towerData.cost)
-        {
-           GameManager.Instance.SpendResources(towerData.cost);
-          _currentPlatform.PlaceTower(towerData);
-             
-        }
-        else
+        // 1. Not enough gold
+        if (GameManager.Instance.Resources < towerData.cost)
         {
             StartCoroutine(ShowNoResourcesMessage());
+            HideTowerPanel();
+            return;
         }
-       HideTowerPanel();
+
+        // 2. Platform already has a tower — DO NOT charge
+        if (_currentPlatform.isAlreadyPlaced)
+        {
+            Debug.Log("Platform already has a tower. Do NOT spend gold.");
+            HideTowerPanel();
+            return;
+        }
+
+        // 3. Spend gold, place tower
+        GameManager.Instance.SpendResources(towerData.cost);
+        _currentPlatform.PlaceTower(towerData);
+
+        // 4. Close panel
+        HideTowerPanel();
     }
+
 
 
     private IEnumerator ShowNoResourcesMessage()
@@ -271,5 +296,14 @@ public class UIController : MonoBehaviour
         GameManager.Instance.SetTimeScale(0f);
         gameOverPanel.SetActive(true);
     }
+
+
+    public void ShowLevelText()
+    {
+        levelCompleteText.SetActive(true);
+    }
+
+   
+
 
 }

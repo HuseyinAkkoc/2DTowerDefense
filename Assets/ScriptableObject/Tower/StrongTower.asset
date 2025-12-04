@@ -15,9 +15,10 @@ MonoBehaviour:
   range: 6
   shootInterval: 1
   projectileSpeed: 4
-  projectileDuration: 3
+  projectileDuration: 1
   damage: 10
   projectileSize: 1
   cost: 100
   sprite: {fileID: 21300000, guid: 31849dfbe7e29b541883f8b2dc47bc29, type: 3}
+  hitEffectPrefab: {fileID: 8194992990867289339, guid: 99bc28c0d45f51c4fbac01080b73edc7, type: 3}
   prefab: {fileID: 3365465238169358597, guid: aaef219ded0e5374ba1f74ac58744679, type: 3}
